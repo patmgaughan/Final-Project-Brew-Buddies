@@ -120,11 +120,59 @@
     		});        
 		}
 
+		//TODO
+		function compareBeer(){
+
+			var username2 = prompt("Please Your Friend's Username", "user0001");
+
+			var arr = prompt("Enter Friend's Beers they like", "1,3,4,5").split(",");
+
+			alert(arr);
+
+			var commonBeers = [];
+
+			for(key in likedBeers)
+			{
+    			// output += "(" + arr[key].id + ") " + arr[key].beer + " | ";
+    			alert(likedBeers[key].id);
+    			//var thisID = (likedBeers[key].id).parseInt();
+				if(arr.includes(thisID)){
+					alert("adding beer");
+					//insert(commonBeers, likedBeers[key].id, likedBeers[key].beer);
+					commonBeers.push(likedBeers[key].name);
+				}       
+			}
+
+			alert(commonBeers);
+
+
+
+		}
+
+		//TODO
+		function showLiked(){
+
+			alert(showArray(likedBeers));
+		}
+
 
 		//functions needed for loading the webpage
 		window.onload = function() {
 
-			beerID = 1;
+			//beerID = 1;
+			var username = prompt("Please Your Username", "user0000");
+
+			x = document.getElementById("username");
+
+			x.innerHTML = "<h2>" + username + "</h2>";
+
+
+			beerID = prompt("Please enter user's currBeerID", 1);
+
+			//TODO
+			FIXlikedBeers = prompt("Please enter current liked Beers", "1 2 6 8 9");
+			//TODO
+
 			getData();
 
 			a = document.getElementById("dislike");
@@ -139,6 +187,9 @@
 				nextBeer(); 
 			}
 
+			c.onclick = function() { compareBeer(); }
+			d.onclick = function() { showLiked(); }
+
 		}
 
 	</script>
@@ -149,6 +200,7 @@
 <body>
 
 	<header id="header">
+		<div id="username">&nbsp;</div>
 		<h1>Beer Brewing Buddies</h1>
 	</header>
 
