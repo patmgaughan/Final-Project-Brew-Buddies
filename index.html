@@ -69,9 +69,9 @@
 		// Step 4: fire off the HTTP request
 			request.send();
 			console.log("4 - Request sent");
-		} 
+		}
 
-		//not sure if this is or isnt working
+		//FIX: not sure if this is or isnt working
 		function getDataAsString(num) {
 
 			alert("in function");
@@ -134,8 +134,6 @@
 
 		function showBeer(beer, a){
 
-			//a.innerHTML = currBeer;
-
 			a.innerHTML = "";
 
 			a.innerHTML += "<h2>" + beer["name"] +"<h2>";
@@ -150,8 +148,6 @@
 
 		function showBeerJSON(beer){
 
-			//a.innerHTML = currBeer;
-
 			output = "";
 
 			output += "<h2>" + beer["name"] +"<h2>";
@@ -159,11 +155,8 @@
 			output += "<img src='" + beer["image_url"] + "' height=300 />";
 			output += "<p>" + beer["description"] + "<p>";
 
-			//output += "<br><br><br>"
-
 			return output;
 
-			//a.innerHTML += "<h2>" + beer["id"] +"<h2>";
 		}
 
 		function nextBeer() {
@@ -174,7 +167,6 @@
 
 		function addCurrBeer() {
 
-			//likedBeers.push(currBeerJSON[0]["name"]);
 			insert(likedBeers, currBeerJSON[0]["id"], currBeerJSON[0]["name"]);
 			likedBeersJSON.push(currBeerJSON[0]);
 			f = document.getElementById("likedBeersArr");
@@ -199,7 +191,7 @@
     		});        
 		}
 
-		//TODO
+		//TODO!!
 		function compareBeer(){
 
 			var username2 = prompt("Please Your Friend's Username", "user0001");
@@ -226,7 +218,6 @@
 
 		}
 
-		//TODO
 		function showLiked(){
 
 			$("#back").show();
@@ -240,24 +231,15 @@
 			if(likedBeers.length == 0){
 				a.innerHTML += "No Liked Beers";
 			}else{
-				//a.innerHTML += showArray(likedBeers);
 				a.innerHTML += "<ul>";
 
 				for(i = 0; i < likedBeersJSON.length; i++)
 				{
-					//var beer = getDataAsString(likedBeers[key].id);
-					//alert(likedBeers[key].id);
-					//alert(beer);
-
-					//a.innerHTML += "<li>" + showBeerJSON(beer) + "</li>";
 					a.innerHTML += "<li>" + showBeerJSON(likedBeersJSON[i]) + "</li>";
-					// a.innerHTML += likedBeers[key].id;
-					// a.innerHTML += "</li>";
 				}
 				a.innerHTML += "</ul>";
 				a.innerHTML += "<br><br><br>";
 			}
-			//alert(showArray(likedBeers));
 		}
 
 		function backToSwiping(){
@@ -316,8 +298,6 @@
 	</script>
 </head>
 
-
-<!-- <body onload="getData()"> -->
 <body>
 
 	<header id="header">
@@ -329,10 +309,6 @@
 		<input type="button" id="compare" value="Compare with Friends">
 		<input type="button" id="liked" value="See Liked Recipies">
 	</form>
-
-	<!-- <form id="form2">
-		<input type="button" id="back" value="Back to Swiping">
-	</form> -->
 
 	<ul id="data">Loading...</ul>
 
