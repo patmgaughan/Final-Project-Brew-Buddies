@@ -1,6 +1,6 @@
 body {
-	font-family: "Cooper Black", Courier, monospace;
-	background-color: #bff8b9;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	background-color: #eee;
 	color: #345d98;
 	margin: 0px;
 }
@@ -14,13 +14,48 @@ header {
 	color: #eee;
 }
 
-footer {
+#dislike { 
+	font-family: Material Icons;
+	vertical-align: middle; 
+	cursor: pointer;
+	background-color: none;
+	font-size: 30px;
+	color: red; 
+}
+
+#like { 
+	font-family: Material Icons;
+	vertical-align: middle; 
+	cursor: pointer; 
+	font-size: 30px;
+	color: green;
+}
+
+i {
+	font-size: 500px;
+	color: red;
+}
+
+/*footer {
 	margin: 0px;
 	padding: 20px;
 	display: block;
 	background-color: #3a7354;
 	text-align: left;
 	color: #eee;
+}*/
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 0px;
+  color: #fff;
+  /*background-color: #eee;*/
+  text-shadow: 2px 2px #509ec4;
+  text-align: center;
+ /* z-index: 0;*/
 }
 
 img {
@@ -44,7 +79,7 @@ ul {
 }
 
 form {
-	background-color: #345d98;
+	background-color: #eee;
 	color: #bff8b9;
 	padding: 10px;
 	text-align: left;
@@ -66,24 +101,37 @@ input {
 	box-shadow: -3px 3px #fff296;
 }
 
+#form2 {
+	justify-content: center;
+}
+
+#back {
+	background-color: #509ec4;
+	color: #eee;
+}
+
+#likedBeersArr {
+	margin: 0px;
+	padding: 5px;
+	background-color: #509ec4;
+}
+
 li {
 	padding: 9px;
 	margin: 20px;
 	display: inline-block;
 	background-color: #345d98;
 	box-shadow: -10px 10px #eed147;
-	width: 300px;
-	height: 300px;
 	color: #fff296;
 }
 
-li h2 {
+/*li h2 {
 	text-transform: uppercase;
 	color: #eee;
 	margin-top: 25%;
 	font-size: 30px;
 	width: 100%;
-}
+}*/
 
 /*
 	jade: #3a7354
