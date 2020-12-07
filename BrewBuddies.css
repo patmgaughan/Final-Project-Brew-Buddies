@@ -181,7 +181,7 @@ li {
 	overflow: hidden;
 }
 
-#login-btn, #reset-btn {
+#login-btn, #signup-btn {
 	margin-top: 20px;
 	padding: 7px 9px;
 	font-size: 16px;
@@ -193,15 +193,22 @@ li {
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
 	transition: all 0.2s ease-in-out;
 	color: #000000;
-	
 }
 
-#reset-btn {
+.signup-redirect {
+	transition: 0.4s;
+}
+
+.signup-redirect:hover {
+	text-decoration: underline;
+}
+
+#signup-btn {
 	margin-right: 20px;
 	background-color: #fcaf98 ;
 }
 
-#login-btn:hover, #reset-btn:hover {
+#login-btn:hover, #signup-btn:hover {
 	cursor: pointer;
 	background-color: #DAF7A6;
 	transform: scale(1.01);
