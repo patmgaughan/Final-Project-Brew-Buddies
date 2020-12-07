@@ -23,7 +23,7 @@
                 </div>
                 <div class="qn">
                     <label for="password">Password: </label>
-                    <input class="effect" type="text" name="password" required>
+                    <input class="effect" type="password" name="password" required>
                 </div>
                 <div class="qn">
                     <button id="reset-btn">Reset</button>
@@ -32,29 +32,25 @@
             </form>
         </div>
     </div>
-	<!-- <form>
-		<input type="button" id="compare" value="Compare with Friends">
-		<input type="button" id="liked" value="See Liked Recipies">
-	</form> -->
-
-
-	<!-- <footer id="footer">
-		<input type="button" id="back" value="Back to Swiping">
-		<input type="button" id="dislike" value="clear">
-		<input type="button" id="like" value="favorite">
-		<div id="likedBeersArr"></div>
-	<footer> -->
-
     <script>
         let reset = document.getElementById("reset-btn");
-        let un = document.getElementsByName("username")[0];
-        let pw = document.getElementsByName("password")[0];
+        
         reset.addEventListener("click", function() {
-
+            let un = document.getElementsByName("username")[0].value;
+            let pw = document.getElementsByName("password")[0].value;
+            un = "";
+            pw = "";
         })
+
         function validate() {
-            
-            
+            let un = document.getElementsByName("username")[0].value;
+            let pw = document.getElementsByName("password")[0].value;
+            if (pw.length < 8) {
+                pw = "";
+                alert("Your password needs to have at least 8 characters.")
+                return false;
+            }
+            return true;
         }
     </script>
 
