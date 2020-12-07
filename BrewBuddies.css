@@ -116,6 +116,26 @@ input {
 	background-color: #509ec4;
 }
 
+#messy{
+	height: 400px;
+  	position: relative;
+ 	/*border: 3px solid green;*/
+}
+
+#messy-v {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#ss{
+	justify-content: center;
+	font-size: 50px;
+}
+
 li {
 	padding: 9px;
 	margin: 20px;
