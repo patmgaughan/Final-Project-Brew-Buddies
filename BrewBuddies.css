@@ -12,6 +12,7 @@ header {
 	background-color: #345d98;
 	text-align: right;
 	color: #eee;
+	font-size: 16px;
 }
 
 #dislike { 
@@ -19,7 +20,7 @@ header {
 	vertical-align: middle; 
 	cursor: pointer;
 	background-color: none;
-	font-size: 30px;
+	font-size: 20px;
 	color: red; 
 }
 
@@ -27,7 +28,7 @@ header {
 	font-family: Material Icons;
 	vertical-align: middle; 
 	cursor: pointer; 
-	font-size: 30px;
+	font-size: 20px;
 	color: green;
 }
 
@@ -86,6 +87,20 @@ form {
 	padding-left: 15%;
 }
 
+#login {
+	padding-left: 0;
+	background-color: rgba(0,0,0,0);
+	z-index: 2;
+}
+
+.qn {
+	width: 60%;
+	margin: 10px auto;
+	text-align: center;
+	color: black;
+}
+
+
 input {
 	font-size: 16px;
 	background-color: #bff8b9;
@@ -124,6 +139,84 @@ li {
 	box-shadow: -10px 10px #eed147;
 	color: #fff296;
 }
+
+.login-container {
+	position: relative;
+	height: 85vh;
+	background-image: url('cheers.jpg');
+	z-index: 1;
+	opacity: 0.75;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.login-container label {
+	font-size: 19px;
+	margin-right: 20px;
+}
+
+.login-content {
+	padding: 11% 0;
+	justify-content: center;
+	overflow: hidden;
+}
+
+#login-btn, #reset-btn {
+	margin-top: 20px;
+	padding: 7px 9px;
+	font-size: 16px;
+	border-radius: 20%/50%;
+	min-width: 85px;
+	box-shadow: 0px 3px 15px rgba(0,0,0,0.1);
+	border-style: none;
+	background-color: #d26649;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	transition: all 0.2s ease-in-out;
+	color: #000000;
+	
+}
+
+#reset-btn {
+	margin-right: 20px;
+	background-color: #fcaf98 ;
+}
+
+#login-btn:hover, #reset-btn:hover {
+	cursor: pointer;
+	background-color: #DAF7A6;
+	transform: scale(1.01);
+}
+
+.effect {
+	border: 0;
+	padding: 5px 0 7px;
+	border: 1px solid transparent;
+	border-bottom-color: #ccc;
+	transition: 0.4s;
+	box-shadow: none;
+}
+
+.effect:hover {
+	box-shadow: -3px 3px #fff296;
+}
+
+.effect:focus{
+	padding: 5px 7px 7px;
+	transition: 0.4s;
+}
+
+.effect ~ .focus-border {
+	position: absolute;
+	height: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%; 
+	transition: 0.4s;
+	z-index: -1;
+}
+
+.effect:focus ~ .focus-border { 
+	transition: 0.4s; height: 36px; border: 2px solid #3399FF; z-index: 1;}
 
 /*li h2 {
 	text-transform: uppercase;

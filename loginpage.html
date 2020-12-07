@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+	<title>API Fun</title>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" type="text/css" href="BrewBuddies.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <!-- <Files “*.json”> Header set Access-Control-Allow-Origin “*” </Files>  -->
+</head>
+
+<body>
+	<header id="header">
+		<h1>Beer Brewing Buddies</h1>
+    </header>
+    <div class="login-container">
+        <div class="login-content">
+            <h2 style="text-align: center;">Log in to Beers with Peers!</h2>
+            <form id="login" onsubmit="return validate();">
+                <div class="qn">
+                    <label for="username">Username: </label>
+                    <input class="effect" type="text" name="username" required>
+                </div>
+                <div class="qn">
+                    <label for="password">Password: </label>
+                    <input class="effect" type="text" name="password" required>
+                </div>
+                <div class="qn">
+                    <button id="reset-btn">Reset</button>
+                    <input type="submit" id="login-btn" name="login-btn" value="Log in">
+                </div>
+            </form>
+        </div>
+    </div>
+	<!-- <form>
+		<input type="button" id="compare" value="Compare with Friends">
+		<input type="button" id="liked" value="See Liked Recipies">
+	</form> -->
+
+
+	<!-- <footer id="footer">
+		<input type="button" id="back" value="Back to Swiping">
+		<input type="button" id="dislike" value="clear">
+		<input type="button" id="like" value="favorite">
+		<div id="likedBeersArr"></div>
+	<footer> -->
+
+    <script>
+        let reset = document.getElementById("reset-btn");
+        let un = document.getElementsByName("username")[0];
+        let pw = document.getElementsByName("password")[0];
+        reset.addEventListener("click", function() {
+
+        })
+        function validate() {
+            
+            
+        }
+    </script>
+
+</body>
+</html>
