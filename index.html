@@ -149,6 +149,7 @@
 			}
 		}
 
+		//TODO: Madeline or Sean
 		function showBeer(beer, a){
 
 			a.innerHTML = "";
@@ -163,6 +164,7 @@
 			//a.innerHTML += "<h2>" + beer["id"] +"<h2>";
 		}
 
+		//TODO: Madeline or Sean
 		function showBeerJSON(beer){
 
 			output = "";
@@ -239,7 +241,9 @@
 				a.innerHTML += "<h2>" + username + " and " + username2 + " - Get Brewing!</h2>";
 				a.innerHTML += "<ul>";
 
-				for(i = 0; i < likedBeersJSON.length; i++)
+				n = likedBeersJSON.length - 1;
+
+				for(i = n; i > -1; i--)
 				{
 					//alert( arr + " - " + (likedBeersJSON[i]["id"]).toString() );
 					if(arr.includes( (likedBeersJSON[i]["id"]).toString() )){
@@ -262,7 +266,7 @@
 			$("#data").show();
 
 			if(prevLiked != ""){
-				alert("Setting prev liked");
+				//alert("Setting prev liked");
 				setLikedBeers(prevLiked);
 				prevLiked = "";
 			}
@@ -273,12 +277,6 @@
 		}
 
 		function showLiked(){
-
-			// if(prevLiked != ""){
-			// 	alert("Setting prev liked");
-			// 	setLikedBeers(prevLiked);
-			// 	prevLiked = "";
-			// }
 
 			$("#back").show();
 
@@ -293,7 +291,9 @@
 			}else{
 				a.innerHTML += "<ul>";
 
-				for(i = 0; i < likedBeersJSON.length; i++)
+				n = likedBeersJSON.length - 1;
+
+				for(i = n; i > -1; i--)
 				{
 					a.innerHTML += "<li>" + showBeerJSON(likedBeersJSON[i]) + "</li>";
 				}
@@ -317,7 +317,7 @@
 
 			getDataAsJSON(prevLiked);
 			//alert( showBeerJSON(beerJSON[0]) );
-			alert("the thingy - " + pastLikedBeers);
+			//alert("the thingy - " + pastLikedBeers);
 		}
 
 
@@ -350,7 +350,7 @@
 
 			numberLiked = (numberLiked/2) + .5;
 
-			alert("array [" + prevLiked + "] becomes [" + prevLiked.length + "] and then - " + numberLiked);
+			//alert("array [" + prevLiked + "] becomes [" + prevLiked.length + "] and then - " + numberLiked);
 
 			getData();
 
