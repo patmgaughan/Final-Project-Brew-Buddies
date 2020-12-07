@@ -1,10 +1,11 @@
 <!doctype html>
 <html>
 <head>
-	<title>API Fun</title>
+	<title>Login</title>
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" type="text/css" href="BrewBuddies.css">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="icon" href="favicon-16x16.png">
 	<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
     <!-- <Files “*.json”> Header set Access-Control-Allow-Origin “*” </Files>  -->
 </head>
@@ -43,7 +44,9 @@
             }
 
             // Check database for match
-            // If userame doesn't exist, redirect to signup
+            // If username doesn't exist in database, return false and error message
+            // If mismatch, return false and error message
+
             return true;
         }
     </script>
