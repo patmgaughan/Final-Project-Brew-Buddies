@@ -17,6 +17,10 @@
 		var likedBeers = [];
 		var likedBeersJSON = [];
 
+		var prevLiked;
+		var numberLiked;
+		var pastLikedBeers;
+
 		//Requests and Gets the API
 		//Sends the JSON file to be sorted
 		function getData(num) {
@@ -72,9 +76,8 @@
 		}
 
 		//Should be working
-		function getDataAsString(num) {
+		function getDataAsJSON(input) {
 
-			alert("in function");
 			/* Step 1: Make instance of request object...
 			...to make HTTP request after page is loaded*/
 			request = new XMLHttpRequest();
@@ -82,7 +85,7 @@
  
 			// Step 2: Set the URL for the AJAX request to be the JSON file
 
-			var url = "https://api.punkapi.com/v2/beers/" + num.toString();
+			var url = "https://api.punkapi.com/v2/beers?ids=" + input;
  
 			request.open("GET", url, true)
 			console.log("2 - opened request file");
@@ -98,26 +101,27 @@
 					console.log("5 - response received");
 
 					result = request.responseText;
-					alert(result);
-					//currBeer = result;
+					currBeer = result;
+					//alert("result - " + result);
+					//pastLikedBeers = result;
+
 
 					data = JSON.parse(result);
-					//currBeerJSON = data;
+					pastLikedBeers = data;
 
-					//return data;
-					return data;
+					showFullJson2();
 
 					
 				}
 				else if (request.readyState == 4 && request.status != 200) {
 
-					return "Something is wrong!  Check the logs to see where this went off the rails";
+					// document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
 
 				}
 
 				else if (request.readyState == 3) {
 
-					return "Too soon!  Try again";
+					// document.getElementById("data").innerHTML = "Too soon!  Try again";
 
 				}
 
@@ -130,6 +134,19 @@
 		function showFullJson() {
 			a = document.getElementById("data");
 			showBeer(currBeerJSON[0], a);
+		}
+
+		function showFullJson2() {
+			// a = document.getElementById("data");
+			// showBeer(pastLikedBeers[0], a);
+
+
+			// likedBeersJSON.push(pastLikedBeers[0]);
+			// insert(likedBeers, pastLikedBeers[0]["id"], pastLikedBeers[0]["name"]);
+			for(i = 0; i < numberLiked; i++){
+				likedBeersJSON.push(pastLikedBeers[i]);
+				insert(likedBeers, pastLikedBeers[i]["id"], pastLikedBeers[i]["name"]);
+			}
 		}
 
 		function showBeer(beer, a){
@@ -235,7 +252,33 @@
 
 		}
 
+		function startSwiping(){ 
+
+			$("#dislike").show();
+			$("#like").show();
+			$("#compare").show();
+			$("#liked").show();
+			$("form").show();
+			$("#data").show();
+
+			if(prevLiked != ""){
+				alert("Setting prev liked");
+				setLikedBeers(prevLiked);
+				prevLiked = "";
+			}
+
+			$("#ss").hide();
+			$("#messy").hide();
+			$("#messy-v").hide();
+		}
+
 		function showLiked(){
+
+			// if(prevLiked != ""){
+			// 	alert("Setting prev liked");
+			// 	setLikedBeers(prevLiked);
+			// 	prevLiked = "";
+			// }
 
 			$("#back").show();
 
@@ -270,11 +313,25 @@
 			getData();
 		}
 
+		function setLikedBeers(input) {
+
+			getDataAsJSON(prevLiked);
+			//alert( showBeerJSON(beerJSON[0]) );
+			alert("the thingy - " + pastLikedBeers);
+		}
+
 
 		//functions needed for loading the webpage
 		window.onload = function() {
 
 			$("#back").hide();
+
+			$("#dislike").hide();
+			$("#like").hide();
+			$("#compare").hide();
+			$("#liked").hide();
+			$("form").hide();
+			$("#data").hide();
 
 			//beerID = 1;
 			username = prompt("Please Your Username", "user0000");
@@ -284,11 +341,16 @@
 			x.innerHTML = "<h2>" + username + "</h2>";
 
 
-			beerID = prompt("Please enter user's currBeerID", 1);
+			beerID = prompt("Please enter user's currBeerID", 4);
 
 			//TODO
-			FIXlikedBeers = prompt("Please enter current liked Beers", "1 2 6 8 9");
-			//TODO
+			prevLiked = prompt("Please enter current Liked Beers", "1|2|3");
+
+			numberLiked = prevLiked.length;
+
+			numberLiked = (numberLiked/2) + .5;
+
+			alert("array [" + prevLiked + "] becomes [" + prevLiked.length + "] and then - " + numberLiked);
 
 			getData();
 
@@ -297,6 +359,7 @@
 			c = document.getElementById("compare");
 			d = document.getElementById("liked");
 			e = document.getElementById("back");
+			f = document.getElementById("ss");
 
 			a.onclick = function() { nextBeer(); }
 			b.onclick = function() 
@@ -309,6 +372,7 @@
 			d.onclick = function() { showLiked(); }
 
 			e.onclick = function() { backToSwiping(); }
+			f.onclick = function() { startSwiping(); }
 
 		}
 
@@ -321,6 +385,12 @@
 		<div id="username">&nbsp;</div>
 		<h1>Beer Brewing Buddies</h1>
 	</header>
+
+	<div id="messy">
+		<div id="messy-v">
+			<input type="button" id="ss" value="Start Swipping">
+		</div>
+	</div>
 
 	<form>
 		<input type="button" id="compare" value="Compare with Friends">
