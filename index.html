@@ -71,7 +71,7 @@
 			console.log("4 - Request sent");
 		}
 
-		//FIX: not sure if this is or isnt working
+		//Should be working
 		function getDataAsString(num) {
 
 			alert("in function");
@@ -82,7 +82,7 @@
  
 			// Step 2: Set the URL for the AJAX request to be the JSON file
 
-			var url = "https://api.punkapi.com/v2/beers/" + num;
+			var url = "https://api.punkapi.com/v2/beers/" + num.toString();
  
 			request.open("GET", url, true)
 			console.log("2 - opened request file");
@@ -105,7 +105,7 @@
 					//currBeerJSON = data;
 
 					//return data;
-					return result;
+					return data;
 
 					
 				}
@@ -191,30 +191,47 @@
     		});        
 		}
 
-		//TODO!!
 		function compareBeer(){
+
+			$("#back").show();
+
+			$("#dislike").hide();
+			$("#like").hide();
 
 			var username2 = prompt("Please Your Friend's Username", "user0001");
 
-			var arr = prompt("Enter Friend's Beers they like", "1,3,4,5").split(",");
-
-			alert(arr);
+			var input = prompt("Enter Friend's Beers they like", "1,3,4,5");
+			var arr = input.split(",");
 
 			var commonBeers = [];
 
 			for(key in likedBeers)
 			{
-    			// output += "(" + arr[key].id + ") " + arr[key].beer + " | ";
-    			alert(likedBeers[key].id);
-    			//var thisID = (likedBeers[key].id).parseInt();
+    			var thisID = (likedBeers[key].id).toString();
 				if(arr.includes(thisID)){
-					alert("adding beer");
-					//insert(commonBeers, likedBeers[key].id, likedBeers[key].beer);
-					commonBeers.push(likedBeers[key].name);
+					commonBeers.push(likedBeers[key].id);
 				}       
 			}
 
-			alert(commonBeers);
+			a = document.getElementById("data");
+			a.innerHTML = "";
+
+			if(commonBeers.length == 0){
+				a.innerHTML += "No Liked Beers";
+			}else{
+				a.innerHTML += "<h2>" + username + " and " + username2 + " - Get Brewing!</h2>";
+				a.innerHTML += "<ul>";
+
+				for(i = 0; i < likedBeersJSON.length; i++)
+				{
+					//alert( arr + " - " + (likedBeersJSON[i]["id"]).toString() );
+					if(arr.includes( (likedBeersJSON[i]["id"]).toString() )){
+						a.innerHTML += "<li>" + showBeerJSON(likedBeersJSON[i]) + "</li>";
+					}
+				}
+				a.innerHTML += "</ul>";
+				a.innerHTML += "<br><br><br>";
+			}
 
 		}
 
@@ -260,7 +277,7 @@
 			$("#back").hide();
 
 			//beerID = 1;
-			var username = prompt("Please Your Username", "user0000");
+			username = prompt("Please Your Username", "user0000");
 
 			x = document.getElementById("username");
 
