@@ -109,7 +109,7 @@ input {
 	font-family: "Cooper Black", Courier, monospace;
 	cursor: pointer;
 	margin: 5px;
-	padding: 5px;
+	padding: 5px 7px;
 	/*height: 40px;
 	width: 100px;*/
 	transition: 0.2s all ease-in-out;
@@ -160,7 +160,7 @@ li {
 	color: #fff296;
 }
 
-.login-container {
+.login-container, .signup-container {
 	position: relative;
 	height: 85vh;
 	background-image: url('cheers.jpg');
@@ -169,8 +169,11 @@ li {
 	background-size: cover;
 	background-repeat: no-repeat;
 }
+.signup-container {
+	background-image: url('cheers2.jpg');
+}
 
-.login-container label {
+.login-container label, .signup-container label {
 	font-size: 19px;
 	margin-right: 20px;
 }
