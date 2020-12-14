@@ -1,0 +1,594 @@
+<!doctype html>
+<html>
+<head>
+	<title>API Fun</title>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" type="text/css" href="beerQuiz.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+	<!-- <Files “*.json”> Header set Access-Control-Allow-Origin “*” </Files>  -->
+	<script>
+
+		//Global Variables
+		var beerID;
+		var currBeer;
+		var currBeerJSON;
+		var likedBeers = [];
+
+
+		var prevLiked;
+		var numberLiked;
+		var pastLikedBeers;
+
+/******************************************/
+
+		var username;
+		var currQuestion;
+		var score;
+		var currBeersJSON;
+		var qType;
+		var answer;
+		var likedBeersJSON = [];
+		//var currBeersJSON = [];
+
+
+		//Gets 1 beer
+		// function getData(num) {
+
+		// 	/* Step 1: Make instance of request object...
+		// 	...to make HTTP request after page is loaded*/
+		// 	request = new XMLHttpRequest();
+		// 	console.log("1 - request object created");
+ 
+		// 	// Step 2: Set the URL for the AJAX request to be the JSON file
+
+		// 	var url = "https://api.punkapi.com/v2/beers/" + beerID.toString();
+ 
+		// 	request.open("GET", url, true)
+		// 	console.log("2 - opened request file");
+ 
+		// 	// Step 3: set up event handler/callback
+
+		// 	request.onreadystatechange = function() {
+		// 		console.log("3 - readystatechange event fired.");
+ 
+		// 		if (request.readyState == 4 && request.status == 200) {
+
+		// 			// Step 5: wait for done + success
+		// 			console.log("5 - response received");
+
+		// 			result = request.responseText;
+		// 			currBeer = result;
+
+		// 			data = JSON.parse(result);
+		// 			currBeerJSON = data[0];
+
+		// 			showFullJson();
+
+					
+		// 		}
+		// 		else if (request.readyState == 4 && request.status != 200) {
+
+		// 			document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
+
+		// 		}
+
+		// 		else if (request.readyState == 3) {
+
+		// 			document.getElementById("data").innerHTML = "Too soon!  Try again";
+
+		// 		}
+
+		// 	}
+		// // Step 4: fire off the HTTP request
+		// 	request.send();
+		// 	console.log("4 - Request sent");
+		// }
+
+		// //Gets Multiple Beers
+		// function getDataAsJSON(input) {
+
+		// 	 Step 1: Make instance of request object...
+		// 	...to make HTTP request after page is loaded
+		// 	request = new XMLHttpRequest();
+		// 	console.log("1 - request object created");
+ 
+		// 	// Step 2: Set the URL for the AJAX request to be the JSON file
+
+		// 	var url = "https://api.punkapi.com/v2/beers?ids=" + input;
+ 
+		// 	request.open("GET", url, true)
+		// 	console.log("2 - opened request file");
+ 
+		// 	// Step 3: set up event handler/callback
+
+		// 	request.onreadystatechange = function() {
+		// 		console.log("3 - readystatechange event fired.");
+ 
+		// 		if (request.readyState == 4 && request.status == 200) {
+
+		// 			// Step 5: wait for done + success
+		// 			console.log("5 - response received");
+
+		// 			result = request.responseText;
+		// 			data = JSON.parse(result);
+
+		// 			//Remove the current Liked Beer
+		// 			for (var key in data) {
+  //  						if (data[key]["id"] == beerID) {
+  //  							currBeerJSON = data[key];
+  //  							data.splice(key, 1);
+  //  							numberLiked--;
+  //  						}
+		// 			}
+
+		// 			pastLikedBeers = data;
+
+
+		// 			showFullJson();
+		// 			showFullJson2();
+
+					
+		// 		}
+		// 		else if (request.readyState == 4 && request.status != 200) {
+
+		// 			// document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
+
+		// 		}
+
+		// 		else if (request.readyState == 3) {
+
+		// 			// document.getElementById("data").innerHTML = "Too soon!  Try again";
+
+		// 		}
+
+		// 	}
+		// // Step 4: fire off the HTTP request
+		// 	request.send();
+		// 	console.log("4 - Request sent");
+		// }
+
+
+
+
+		//Set a question up the reqs two beers
+		function setTwoBeers(input, qType) {
+
+			request = new XMLHttpRequest();
+			console.log("1 - request object created");
+ 
+			var url = "https://api.punkapi.com/v2/beers?ids=" + input;
+ 
+			request.open("GET", url, true)
+			console.log("2 - opened request file");
+ 
+			// Step 3: set up event handler/callback
+
+			request.onreadystatechange = function() {
+				console.log("3 - readystatechange event fired.");
+ 
+				if (request.readyState == 4 && request.status == 200) {
+
+					// Step 5: wait for done + success
+					console.log("5 - response received");
+
+					result = request.responseText;
+					data = JSON.parse(result);
+
+					currBeersJSON = data;
+
+					setQuestion(data, qType);
+
+					
+				}
+				else if (request.readyState == 4 && request.status != 200) {
+
+					document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
+
+				}
+
+				else if (request.readyState == 3) {
+
+					document.getElementById("data").innerHTML = "Too soon!  Try again";
+
+				}
+
+			}
+			request.send();
+			console.log("4 - Request sent");
+		}
+
+		//uses Global varianle currBeersJSON
+		//and the variable qType;
+		function setQuestion() {
+			//a = document.getElementById("data");
+
+			answer = Math.floor((Math.random() * 2) + 1);
+			answer--;
+
+			html = "";
+
+			html += "<div id='container'>";
+
+			html += "The answer is " + answer + "<br>";
+
+			html += "<h2>Which Beer Pairs Better with " + currBeersJSON[0]["food_pairing"][0] 
+			         + "?</h2><br>";
+
+			html += "<ul>"
+
+			html += "<div class='item_left'>";
+			html += "<li>" + showBeerJSON(currBeersJSON[0]) + "</li><br><br><br><br><br><br><br><br>";
+			html += "</div>";
+			html += "<div class='item_right'>";
+			html += "<li>" + showBeerJSON(currBeersJSON[1]) + "</li><br><br><br><br><br><br><br><br>";
+			html += "</div>";
+
+			html += "</ul>";
+
+			html += "</div>";
+
+			$("#data").html(html);
+
+
+			$("#true").val(currBeersJSON[0]["name"]);
+			$("#false").val(currBeersJSON[1]["name"]);
+
+		}
+
+
+
+
+		// function showFullJson() {
+		// 	a = document.getElementById("data");
+		// 	showBeer(currBeerJSON, a);
+		// }
+
+		// function showFullJson2() {
+
+		// 	for(i = 0; i < numberLiked; i++){
+
+
+		// 		likedBeersJSON.push(pastLikedBeers[i]);
+		// 		insert(likedBeers, pastLikedBeers[i]["id"], pastLikedBeers[i]["name"]);
+		// 	}
+		// }
+
+
+		function showBeer(beer, a){
+
+			//a.innerHTML = "";
+
+			var html = "";
+
+			html += "ID - " + beer["id"] + "<br>";
+
+			html += "<h2>" + beer["name"] +"<h2>";
+			html += "<br>";
+			html += "<img src='" + beer["image_url"] + "' height=300 />";
+			html += "<p>" + beer["description"] + "<p>";
+
+			html += "tag line: " + beer["tagline"] + "<br>";
+			html += "First Brewed: " + beer["first_brewed"] + "<br>";
+			html += "abv - " + beer["abv"] + "<br>";
+			html += "ibu - " + beer["ibu"] + "<br>";
+			html += "ebc - " + beer["ebc"] + "<br>";
+			html += "srm - " + beer["srm"] + "<br>";
+			html += "ph - " + beer["ph"] + "<br>";
+			html += "Attenuation Level: " + beer["attenuation_level"] + "<br>";
+
+			html += "Volume: ";
+			html += beer["volume"]["value"] + " " + beer["volume"]["unit"] + "<br>";
+
+
+			html += "Boil Volume: ";
+			html += beer["volume"]["value"] + " " + beer["volume"]["unit"] + "<br>";
+
+			//method
+
+			//ingrediants
+				//malt
+				//hops
+				//yeast
+
+			html += "Food Pairing: " + beer["food_pairing"][0] + "<br>";
+
+			html += "Brewers Tips: " + beer["brewers_tips"] + "<br>";
+
+			html += "<br><br><br>";
+
+
+
+			a.innerHTML = html;
+		}
+
+		//TODO:
+		function showBeerJSON(beer){
+
+			output = "";
+
+			output += "<h2>" + beer["name"] +"<h2>";
+			output += "<br>";
+			output += "<img src='" + beer["image_url"] + "' height=300 />";
+			output += "<p>" + beer["description"] + "<p>";
+			output += "ID - " + beer["id"] + "<br>";
+
+			return output;
+
+		}
+
+		function nextQuestion() {
+			
+			var questionType = 1;
+
+			num1 = Math.floor((Math.random() * 187) + 1);
+			num2 = Math.floor((Math.random() * 187) + 1);
+
+			twoBeers = num1 + "|" + num2;
+
+			setTwoBeers(twoBeers, questionType);
+		}
+
+		// Functionality must be fixed
+		function addCurrBeer() {
+
+			insert(likedBeers, currBeerJSON["id"], currBeerJSON["name"]);
+			likedBeersJSON.push(currBeerJSON);
+
+		}
+
+		//Not Used but can be kept
+		function showArray(arr){
+			var output = "";
+			for(key in arr)
+			{
+    			output += arr[key].beer + " | ";         
+			}
+			return output;
+		}
+
+		//Not Used but can be
+		function insert(arr, id, beer) {
+    		arr.push({
+        		id: id,
+        		beer: beer
+    		});        
+		}
+
+
+		function startSwiping(){ 
+
+			username = document.getElementById("user").value;
+
+			currQuestion = 1;
+			score = 0;
+
+			$("#currQuestion").html("1/25");
+			$("#score").html("SCORE - 0");
+
+			$("#username").html(username);
+
+
+			beerID = 9;
+			prevLiked = "9|5|7|8";
+			numberLiked = prevLiked.length;
+			numberLiked = (numberLiked/2) + .5;
+
+			nextQuestion();
+
+			var toShow = ["#false", "#true", "#liked", "form", "#data", "#currQuestion", "#score"];
+
+			showJQuery(toShow);
+
+			$("#messy").hide();
+			$("#messy-v").hide();
+		}
+
+		function showLiked(){
+
+			$("#back").show();
+
+			$("#false").hide();
+			$("#true").hide();
+
+			a = document.getElementById("data");
+			a.innerHTML = "";
+
+			if(likedBeers.length == 0){
+				a.innerHTML += "No Liked Beers";
+			}else{
+				a.innerHTML += "<ul>";
+
+				n = likedBeersJSON.length - 1;
+
+				for(i = n; i > -1; i--)
+				{
+					a.innerHTML += "<li>" + showBeerJSON(likedBeersJSON[i]) + "</li>";
+				}
+				a.innerHTML += "</ul>";
+				a.innerHTML += "<br><br><br>";
+			}
+		}
+
+		function backToSwiping(){
+
+
+			$("#back").hide();
+
+			$("#false").show();
+			$("#true").show();
+
+			setQuestion();
+		}
+
+		function testAnswer0() {
+
+			if(answer == 0){
+				rightAnswer();
+			}else{
+				wrongAnswer();
+			}
+		}
+
+		function testAnswer1() {
+
+			if(answer == 1){
+				rightAnswer();
+			}else{
+				wrongAnswer();
+			}
+		}
+
+
+		function wrongAnswer() {
+
+			if(currQuestion == 25){
+				endQuiz();
+			}else{
+				currQuestion++;
+
+				output = currQuestion + "/25";
+				$("#currQuestion").html(output);
+				nextQuestion();
+			}
+		}
+
+		function rightAnswer() {
+
+			score = score + 4;
+			output = "SCORE - " + score;
+			$("#score").html(output);
+
+
+			if(currQuestion == 25){
+				endQuiz();
+			}else{
+				currQuestion++;
+
+				output = currQuestion + "/25";
+				$("#currQuestion").html(output);
+				nextQuestion();
+			}
+
+		}
+
+		/* 
+		 * Ends the Quiz By hiding all current elements on
+		 * the page, and showing the final form.
+		 * The final form, once submitted takes you too
+		 * the server which acesses the Database
+		 */
+		function endQuiz() {
+
+			var toHide = ["#back", "#false", "#true", "#liked", "form", "#data", "#currQuestion", "#score", "#login"];
+
+			hideJQuery(toHide);
+
+			var toShow = ["#FF1", "#FF2", "#final_form", "#final_submit", "#final_message"];
+
+			showJQuery(toShow);
+
+
+			$("#final_message").html(username + " - " + score);
+			$("#final_user").val(username);
+			$("#final_score").val(score);
+			$("#final_likedBeers").val(currBeersJSON[0]["name"]);
+		}
+
+		function showJQuery(arr) {
+			for(i = 0; i < arr.length; i++){
+
+				$(arr[i]).show();
+
+			}
+		}
+
+		function hideJQuery(arr) {
+			for(i = 0; i < arr.length; i++){
+
+				$(arr[i]).hide();
+
+			}
+		}
+
+
+		//
+		window.onload = function() {
+
+
+			var toHide = ["#back", "#false", "#true", "#liked", "form", "#data", "#FF1", "#FF2", "#final_form", "#final_user", "#final_score", "#final_likedBeers", "#final_submit", "#currQuestion", "#score", "#final_message"];
+
+			hideJQuery(toHide);
+
+			$("#login").show();
+
+			$("#true").click(testAnswer0);
+			$("#false").click(testAnswer1);
+
+			$("#liked").click(showLiked);
+			$("#back").click(backToSwiping);
+			$("#sign_in").click(startSwiping);
+
+		}
+
+	</script>
+</head>
+
+<body>
+
+	<header id="header">
+		<div id="username">&nbsp;</div>
+		<h1>The Impossible Brew Quiz</h1>
+	</header>
+
+	<!-- Login Form -->
+	<div id="messy">
+		<div id="messy-v">
+			<form id="login">
+				Name:<br>
+				<input type="text" value="user0000" id="user">
+
+				<input type="button" id="sign_in" value="Start">
+			</form>
+		</div>
+	</div>
+	<!-- End Login Form -->
+
+
+	<form>
+		<input type="button" id="liked" value="See Liked Recipies">
+	</form>
+
+
+	<div id="currQuestion"></div>
+	<div id="score"></div>
+
+	<div id="data">Loading...</div>
+
+
+	<!-- Final Form -->
+	<div id="FF1">
+		<div id="FF2">
+			<form id="final_form" method = "GET" action = "http://localhost:8080">
+				<p id="final_message"></p>
+				<input id="final_user" name="final_user" value="_____">
+				<input id="final_score" name="final_score" value="_____">
+				<input id="final_likedBeers" name="final_likedBeers" value="_____">
+				<input type="submit" id="final_submit" value="Save & See Ranking">
+			</form>
+		</div>
+	</div>
+	<!-- End Final Form -->
+
+
+	<footer id="footer">
+		<input type="button" id="back" value="Back to Swiping">
+		<!-- <input type="button" id="dislike" value="clear">
+		<input type="button" id="like" value="favorite"> -->
+		<input type="button" id="true" value="T">
+		<input type="button" id="false" value="F">
+		<div id="likedBeersArr">SPAM Inc.</div>
+	<footer>
+
+</body>
+</html>
