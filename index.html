@@ -89,22 +89,22 @@
 
 			html += "<div id='container'>";
 
-			html += "The answer is " + currBeersJSON[answer]["name"] + "<br>";
+			// html += "The answer is " + currBeersJSON[answer]["name"] + "<br>";
 
-			html += "<h2>Which Beer Pairs Better with " + currBeersJSON[answer]["food_pairing"][0] 
+			html += "<h2 id='beer-qn'>Which Beer Pairs Better with " + currBeersJSON[answer]["food_pairing"][0] 
 			         + "?</h2><br>";
 
 			html += "<ul>"
 
 			html += "<div class='item_left'>";
-			html += "<li><button onclick='likeBeer0()' id='btn0'>Like</button>";
-			html += "<button onclick='testAnswer0()'>" + showBeerJSON(currBeersJSON[0]) + "</button></li><br><br><br><br><br><br><br><br>";
+			html += "<li><button class='testbtn' onclick='likeBeer0()' id='btn0'>Like</button>";
+			html += "<button class='answer-btn' onclick='testAnswer0()'>" + showBeerJSON(currBeersJSON[0]) + "</button></li><br><br><br><br><br><br><br><br>";
 			html += "</div>";
 
 
 			html += "<div class='item_right'>";
-			html += "<li><button onclick='likeBeer1()' id='btn1'>Like</button>";
-			html += "<button onclick='testAnswer1()'>" + showBeerJSON(currBeersJSON[1]) + "</button></li><br><br><br><br><br><br><br><br>";
+			html += "<li><button class='testbtn' onclick='likeBeer1()' id='btn1'>Like</button>";
+			html += "<button class='answer-btn' onclick='testAnswer1()'>" + showBeerJSON(currBeersJSON[1]) + "</button></li><br><br><br><br><br><br><br><br>";
 			html += "</div>";
 
 			html += "</ul>";
@@ -181,8 +181,8 @@
 			output += "<h2>" + beer["name"] +"<h2>";
 			output += "<br>";
 			output += "<img src='" + beer["image_url"] + "' height=300 />";
-			output += "<p>" + beer["description"] + "<p>";
-			output += "ID - " + beer["id"] + "<br>";
+			output += "<p class='beer-desc'>" + beer["description"] + "<p>";
+			// output += "ID - " + beer["id"] + "<br>";
 
 			//if (qType != 1){
 			// output += "Food Pairing" + beer["pairing"];
@@ -478,9 +478,12 @@
 	<!-- End Login Form -->
 
 
-	<form>
-		<input type="button" id="liked" value="See Liked Recipies">
-	</form>
+	<div id="liked-form">
+		<form>
+			<input type="button" id="liked" value="See Liked Recipies">
+		</form>
+	</div>
+	
 
 
 	<div id="currQuestion"></div>

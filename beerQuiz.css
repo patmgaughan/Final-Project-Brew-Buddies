@@ -8,6 +8,8 @@ body {
 #header {
 	font-family: 'Fredericka the Great', cursive;
 	font-size: 28px;
+	background-image: url(cheers.jpg);
+	background-size: cover;
 }
 
 html {
@@ -61,6 +63,7 @@ a {
 }
 
 ul {
+	margin-top: -10px;
 	text-align: center;
 }
 
@@ -236,6 +239,7 @@ input[type=text] {
 	background-color: #509ec4;
 }
 
+
 #messy{
 	font-family: 'Fredericka the Great', cursive;
 	height: 80vh;
@@ -282,6 +286,7 @@ input[type=text] {
 #intro {
 	width: 60%;
 	margin: 0 auto;
+	margin-top: 10px;
 	font-size: 22.5px;
 	text-align: center;
 	color: #B69517;
@@ -289,6 +294,64 @@ input[type=text] {
 
 #enter-pls {
 	font-size: 20px;
+}
+
+#liked-form {
+	display: block;
+	text-align: center;
+}
+
+#liked-form form {
+	margin: 0 auto;
+}
+
+#liked {
+	margin: 0 auto;
+	margin-left: 33%;
+	border-radius: 500px;
+	padding: 6px 10px;
+}
+
+#btn0:focus, #btn1:focus {
+	outline: none;
+}
+
+.testbtn {
+	font-family: 'Courier New', Courier, monospace;
+	padding: 6px 8px;
+	margin-bottom: 10px;
+	border-radius: 500px;
+	transition: all 0.3s ease-in-out;
+	font-size: 18px;
+}
+
+.testbtn:hover {
+	cursor: pointer;
+	background-color: #FFE66E
+}
+
+.answer-btn {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.answer-btn:hover {
+	cursor: pointer;
+}
+
+#score, #currQuestion {
+	border-radius: 500px;
+}
+
+.answer-btn h2, #beer-qn {
+	font-family: 'Fredericka the Great', cursive;
+}
+.answer-btn p {
+	font-family: 'Fredericka the Great', cursive;
+	font-size: 17px;
+	font-weight: 400;
+	width: 75%;
+	margin: 0 auto;
+	margin-top: 10px;
 }
 
 #FF2 {
