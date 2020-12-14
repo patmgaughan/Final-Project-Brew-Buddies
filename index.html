@@ -152,12 +152,15 @@
 
 
 		//Set a question up the reqs two beers
-		function setTwoBeers(input, qType) {
+		function setTwoBeers(input) {
 
 			request = new XMLHttpRequest();
 			console.log("1 - request object created");
  
 			var url = "https://api.punkapi.com/v2/beers?ids=" + input;
+
+			// input is of the form:
+			// "1|56|7|4"
  
 			request.open("GET", url, true)
 			console.log("2 - opened request file");
@@ -177,7 +180,7 @@
 
 					currBeersJSON = data;
 
-					setQuestion(data, qType);
+					setQuestion();
 
 					
 				}
@@ -205,14 +208,18 @@
 
 			answer = Math.floor((Math.random() * 2) + 1);
 			answer--;
+			//answer is an index of currBeersJSON
 
+
+
+			//html is the Question to be displayed
 			html = "";
 
 			html += "<div id='container'>";
 
 			html += "The answer is " + answer + "<br>";
 
-			html += "<h2>Which Beer Pairs Better with " + currBeersJSON[0]["food_pairing"][0] 
+			html += "<h2>Which Beer Pairs Better with " + currBeersJSON[answer]["food_pairing"][0] 
 			         + "?</h2><br>";
 
 			html += "<ul>"
@@ -228,9 +235,12 @@
 
 			html += "</div>";
 
+			//sets the innerHTML of id data to be var html
 			$("#data").html(html);
 
 
+			//sets the value of buttons to match the name
+			// pill shared buttonz
 			$("#true").val(currBeersJSON[0]["name"]);
 			$("#false").val(currBeersJSON[1]["name"]);
 
@@ -302,10 +312,14 @@
 			a.innerHTML = html;
 		}
 
-		//TODO:
+		//TODO: add if statements what what to be shown
+		//      depending on the question type
 		function showBeerJSON(beer){
 
 			output = "";
+
+			//Add a button and set the onclick, worst case
+			//put it in the form
 
 			output += "<h2>" + beer["name"] +"<h2>";
 			output += "<br>";
@@ -313,20 +327,26 @@
 			output += "<p>" + beer["description"] + "<p>";
 			output += "ID - " + beer["id"] + "<br>";
 
+			//if (qType != 1){
+			// output += "Food Pairing" + beer["pairing"];
+			//}
+
 			return output;
 
 		}
 
 		function nextQuestion() {
 			
-			var questionType = 1;
+			qType = 1;
 
 			num1 = Math.floor((Math.random() * 187) + 1);
 			num2 = Math.floor((Math.random() * 187) + 1);
 
+			//add make sure theyre not the same
+
 			twoBeers = num1 + "|" + num2;
 
-			setTwoBeers(twoBeers, questionType);
+			setTwoBeers(twoBeers);
 		}
 
 		// Functionality must be fixed
@@ -496,9 +516,9 @@
 
 			//Madeline Might have changed this Line
 
+			var string_likedBeers = JSON.stringify(currBeersJSON);
 
-
-			$("#final_likedBeers").val(currBeersJSON[0]["name"]);
+			$("#final_likedBeers").val(string_likedBeers);
 
 
 
@@ -532,8 +552,11 @@
 
 			$("#login").show();
 
+
+			// Pill Shaped Buttons
 			$("#true").click(testAnswer0);
 			$("#false").click(testAnswer1);
+			// Pill Shaped Buttons
 
 			$("#liked").click(showLiked);
 			$("#back").click(backToSwiping);
@@ -581,9 +604,11 @@
 		<div id="FF2">
 			<form id="final_form" method = "GET" action = "http://localhost:8080">
 				<p id="final_message"></p>
+
 				<input id="final_user" name="final_user" value="_____">
 				<input id="final_score" name="final_score" value="_____">
 				<input id="final_likedBeers" name="final_likedBeers" value="_____">
+
 				<input type="submit" id="final_submit" value="Save & See Ranking">
 			</form>
 		</div>
