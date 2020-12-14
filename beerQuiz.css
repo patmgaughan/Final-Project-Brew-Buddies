@@ -5,6 +5,18 @@ body {
 	margin: 0px;
 }
 
+#header {
+	font-family: 'Fredericka the Great', cursive;
+	font-size: 28px;
+}
+
+html {
+	--blue: #159ce4;
+	--lgt-blue: #67cff3;
+	--drk-blue: #147ec1;
+	--black: #32383c;
+  }
+
 header {
 	margin: 0px;
 	padding: 5px;
@@ -59,8 +71,8 @@ ul {
 }
 
 form {
-	background-color: #000;
-	color: #bff8b9;
+	background-color:rgba(212, 175, 55, 0.65);
+	color: #463500;
 	padding: 10px;
 	text-align: left;
 	padding-left: 15%;
@@ -225,8 +237,12 @@ input[type=text] {
 }
 
 #messy{
-	height: 400px;
-  	position: relative;
+	font-family: 'Fredericka the Great', cursive;
+	height: 80vh;
+	padding-top: 24px;
+	line-height: 30px;
+	  position: relative;
+	  background-color: rgba(240, 243, 256, 0.6);
  	/*border: 3px solid green;*/
 }
 
@@ -236,15 +252,39 @@ input[type=text] {
  	/*border: 3px solid green;*/
 }
 
-
-
 #messy-v {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+	width:80%;
+	margin: 0 auto;
+	position: absolute;
+	top: 43%;
+	left: 55%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+#messy-v:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.col {
+	float: left;
+	width: 45%;
+	height: 300px;
+}
+
+.col-2 {
+	background-image: url(cheers2.jpg);
+	background-size: cover;
+}
+
+#intro {
+	width: 60%;
+	margin: 0 auto;
+	font-size: 22.5px;
+	text-align: center;
+	color: #B69517;
 }
 
 #FF2 {
@@ -257,7 +297,38 @@ input[type=text] {
 }
 
 #login {
-	width: 280px;
+	width: 100%;
+	padding-top: 20%;
+	padding-bottom: 20px;
+	margin: 0 auto;
+	align-items: center;
+	height: 58.5%;
+}
+
+#user {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 7px 10px;
+	transition: all 0.2s ease-in-out;
+}
+
+#user:focus {
+	outline: none;
+	transform: scale(1.02);
+	background-color: #FFFFDE;
+
+}
+
+#sign_in {
+	width: 100px;
+	height: 35px;
+	border-radius: 500px;
+	transition: all 0.2s ease-in-out;
+}
+
+#sign_in:hover {
+	transform: scale(1.02);
+	background-color: #FFE66E;
 }
 
 #final_form {
