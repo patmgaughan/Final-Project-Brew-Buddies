@@ -1,156 +1,26 @@
 <!doctype html>
 <html>
 <head>
-	<title>The Impossible Beer Quiz</title>
+	<title>API Fun</title>
 	<meta charset="utf-8"/>
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">	
 	<link rel="stylesheet" type="text/css" href="beerQuiz.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 	<!-- <Files “*.json”> Header set Access-Control-Allow-Origin “*” </Files>  -->
 	<script>
 
-		//Global Variables
-		var beerID;
-		var currBeer;
-		var currBeerJSON;
-		var likedBeers = [];
-
-
-		var prevLiked;
-		var numberLiked;
-		var pastLikedBeers;
-
-/******************************************/
-
+		/* Global Variables */
 		var username;
 		var currQuestion;
 		var score;
+
 		var currBeersJSON;
+		var likedBeersJSON = [];
+
 		var qType;
 		var answer;
-		var likedBeersJSON = [];
-		//var currBeersJSON = [];
 
-
-		//Gets 1 beer
-		// function getData(num) {
-
-		// 	/* Step 1: Make instance of request object...
-		// 	...to make HTTP request after page is loaded*/
-		// 	request = new XMLHttpRequest();
-		// 	console.log("1 - request object created");
- 
-		// 	// Step 2: Set the URL for the AJAX request to be the JSON file
-
-		// 	var url = "https://api.punkapi.com/v2/beers/" + beerID.toString();
- 
-		// 	request.open("GET", url, true)
-		// 	console.log("2 - opened request file");
- 
-		// 	// Step 3: set up event handler/callback
-
-		// 	request.onreadystatechange = function() {
-		// 		console.log("3 - readystatechange event fired.");
- 
-		// 		if (request.readyState == 4 && request.status == 200) {
-
-		// 			// Step 5: wait for done + success
-		// 			console.log("5 - response received");
-
-		// 			result = request.responseText;
-		// 			currBeer = result;
-
-		// 			data = JSON.parse(result);
-		// 			currBeerJSON = data[0];
-
-		// 			showFullJson();
-
-					
-		// 		}
-		// 		else if (request.readyState == 4 && request.status != 200) {
-
-		// 			document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
-
-		// 		}
-
-		// 		else if (request.readyState == 3) {
-
-		// 			document.getElementById("data").innerHTML = "Too soon!  Try again";
-
-		// 		}
-
-		// 	}
-		// // Step 4: fire off the HTTP request
-		// 	request.send();
-		// 	console.log("4 - Request sent");
-		// }
-
-		// //Gets Multiple Beers
-		// function getDataAsJSON(input) {
-
-		// 	 Step 1: Make instance of request object...
-		// 	...to make HTTP request after page is loaded
-		// 	request = new XMLHttpRequest();
-		// 	console.log("1 - request object created");
- 
-		// 	// Step 2: Set the URL for the AJAX request to be the JSON file
-
-		// 	var url = "https://api.punkapi.com/v2/beers?ids=" + input;
- 
-		// 	request.open("GET", url, true)
-		// 	console.log("2 - opened request file");
- 
-		// 	// Step 3: set up event handler/callback
-
-		// 	request.onreadystatechange = function() {
-		// 		console.log("3 - readystatechange event fired.");
- 
-		// 		if (request.readyState == 4 && request.status == 200) {
-
-		// 			// Step 5: wait for done + success
-		// 			console.log("5 - response received");
-
-		// 			result = request.responseText;
-		// 			data = JSON.parse(result);
-
-		// 			//Remove the current Liked Beer
-		// 			for (var key in data) {
-  //  						if (data[key]["id"] == beerID) {
-  //  							currBeerJSON = data[key];
-  //  							data.splice(key, 1);
-  //  							numberLiked--;
-  //  						}
-		// 			}
-
-		// 			pastLikedBeers = data;
-
-
-		// 			showFullJson();
-		// 			showFullJson2();
-
-					
-		// 		}
-		// 		else if (request.readyState == 4 && request.status != 200) {
-
-		// 			// document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
-
-		// 		}
-
-		// 		else if (request.readyState == 3) {
-
-		// 			// document.getElementById("data").innerHTML = "Too soon!  Try again";
-
-		// 		}
-
-		// 	}
-		// // Step 4: fire off the HTTP request
-		// 	request.send();
-		// 	console.log("4 - Request sent");
-		// }
-
-
+		var currQuestionHTML;
 
 
 		//Set a question up the reqs two beers
@@ -213,13 +83,12 @@
 			//answer is an index of currBeersJSON
 
 
-
 			//html is the Question to be displayed
 			html = "";
 
 			html += "<div id='container'>";
 
-			html += "The answer is " + answer + "<br>";
+			html += "The answer is " + currBeersJSON[answer]["name"] + "<br>";
 
 			html += "<h2>Which Beer Pairs Better with " + currBeersJSON[answer]["food_pairing"][0] 
 			         + "?</h2><br>";
@@ -227,10 +96,14 @@
 			html += "<ul>"
 
 			html += "<div class='item_left'>";
-			html += "<li>" + showBeerJSON(currBeersJSON[0]) + "</li><br><br><br><br><br><br><br><br>";
+			html += "<li><button onclick='likeBeer0()' id='btn0'>Like</button>";
+			html += "<button onclick='testAnswer0()'>" + showBeerJSON(currBeersJSON[0]) + "</button></li><br><br><br><br><br><br><br><br>";
 			html += "</div>";
+
+
 			html += "<div class='item_right'>";
-			html += "<li>" + showBeerJSON(currBeersJSON[1]) + "</li><br><br><br><br><br><br><br><br>";
+			html += "<li><button onclick='likeBeer1()' id='btn1'>Like</button>";
+			html += "<button onclick='testAnswer1()'>" + showBeerJSON(currBeersJSON[1]) + "</button></li><br><br><br><br><br><br><br><br>";
 			html += "</div>";
 
 			html += "</ul>";
@@ -247,25 +120,6 @@
 			$("#false").val(currBeersJSON[1]["name"]);
 
 		}
-
-
-
-
-		// function showFullJson() {
-		// 	a = document.getElementById("data");
-		// 	showBeer(currBeerJSON, a);
-		// }
-
-		// function showFullJson2() {
-
-		// 	for(i = 0; i < numberLiked; i++){
-
-
-		// 		likedBeersJSON.push(pastLikedBeers[i]);
-		// 		insert(likedBeers, pastLikedBeers[i]["id"], pastLikedBeers[i]["name"]);
-		// 	}
-		// }
-
 
 		function showBeer(beer, a){
 
@@ -398,7 +252,7 @@
 
 			nextQuestion();
 
-			var toShow = ["#false", "#true", "#liked", "form", "#data", "#currQuestion", "#score"];
+			var toShow = ["#liked", "form", "#data", "#currQuestion", "#score"];
 
 			showJQuery(toShow);
 
@@ -408,15 +262,18 @@
 
 		function showLiked(){
 
+			currQuestionHTML = $('#data').html();
+
 			$("#back").show();
 
+			$("#liked").hide();
 			$("#false").hide();
 			$("#true").hide();
 
 			a = document.getElementById("data");
 			a.innerHTML = "";
 
-			if(likedBeers.length == 0){
+			if(likedBeersJSON.length == 0){
 				a.innerHTML += "No Liked Beers";
 			}else{
 				a.innerHTML += "<ul>";
@@ -434,13 +291,29 @@
 
 		function backToSwiping(){
 
+			$("#liked").show();
 
 			$("#back").hide();
+			$('#data').html(currQuestionHTML);
 
-			$("#false").show();
-			$("#true").show();
+		}
 
-			setQuestion();
+		function likeBeer0() {
+
+			if(!likedBeersJSON.includes(currBeersJSON[0])){
+				likedBeersJSON.push(currBeersJSON[0]);
+			}
+
+			$("#btn0").html("Liked");
+		}
+
+		function likeBeer1() {
+
+			if(!likedBeersJSON.includes(currBeersJSON[1])){
+				likedBeersJSON.push(currBeersJSON[1]);
+			}
+
+			$("#btn1").html("Liked");
 		}
 
 		function testAnswer0() {
@@ -578,20 +451,13 @@
 
 	<!-- Login Form -->
 	<div id="messy">
-		<h2 id="intro">Welcome all beer enthusiasts! <br>Think you know beers better than your friends? Try the Impossible Brew Quiz! Featuring the most diabolical beer trivia, it's the ultimate beer test!</h2>
 		<div id="messy-v">
-			<div class="col">
-				<form id="login">
-					<span id="enter-pls">Enter your username to start!</span><br/>
-					<input type="text" value="" id="user">
-	
-					<input type="button" id="sign_in" value="Start">
-				</form>
-			</div>
-			
-			<div class="col col-2">
-				
-			</div>
+			<form id="login">
+				Name:<br>
+				<input type="text" value="user0000" id="user">
+
+				<input type="button" id="sign_in" value="Start">
+			</form>
 		</div>
 	</div>
 	<!-- End Login Form -->
