@@ -4,12 +4,11 @@ body {
 	color: #345d98;
 	margin: 0px;
 	height: 100%;
-} 
+}
 
 #header {
 	/*font-family: 'Fredericka the Great', cursive;*/
 	font-size: 28px;
-	/* Comment */
 	/*background-image: url(cheers.jpg);
 	background-size: cover;*/
 }
@@ -562,4 +561,5 @@ li {
 	black:  #000
 	white:  #fff
 */
+
 
