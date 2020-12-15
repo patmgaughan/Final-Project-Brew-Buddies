@@ -384,9 +384,19 @@
 			var toShow = ["#FF1", "#FF2", "#final_form", "#final_submit", "#final_message"];
 
 			showJQuery(toShow);
+			var extra;
+			if (score < 30) {
+				extra = "Yikes...";
+			} else if (score < 60) {
+				extra = "That's not too bad!";
+			} else if (score < 90) {
+				extra = "Solid job!";
+			} else {
+				extra = "You truly are the beer god!";
+			}
 
 
-			$("#final_message").html(username + " - " + score);
+			$("#final_message").html(username + ", your score is " + score + "/100! " + extra);
 			$("#final_user").val(username);
 			$("#final_score").val(score);
 
@@ -499,7 +509,7 @@
 				<input id="final_user" name="final_user" value="_____">
 				<input id="final_score" name="final_score" value="_____">
 				<input id="final_likedBeers" name="final_likedBeers" value="_____">
-
+				<a class="try_again" href="index.html">Try again?</a><br><br>
 				<input type="submit" id="final_submit" value="Save & See Ranking">
 			</form>
 		</div>

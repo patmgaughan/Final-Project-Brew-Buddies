@@ -308,8 +308,10 @@ input[type=text] {
 }*/
 
 #FF1{
-	height: 400px;
-  	position: relative;
+	height: 80vh;
+	  position: relative;
+	  background-image: url('cheers2.jpg');
+	  background-size: cover;
  	/*border: 3px solid green;*/
 }
 
@@ -446,8 +448,8 @@ h2 {
 #FF2 {
   margin: 0;
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 40%;
+  left: 48%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
@@ -493,6 +495,38 @@ h2 {
 
 #final_form {
 	width: 280px;
+}
+
+.try_again {
+	border: 2px solid black;
+	border-radius: 500px;
+	padding: 6px 9px;
+	font-family: "Cooper Black", Courier, monospace;
+	margin-left: 6px;
+	background-color: #eee;
+	color: #345d98;
+	box-shadow: -3px 3px #eed147;
+	border-style: none;
+	transition: all 0.2s ease-in-out;
+}
+
+.try_again:hover {
+	cursor: pointer;
+	background-color: #FFE66E;
+}
+#final_submit {
+	border-radius: 500px;
+	padding: 6px 9px;
+	transition: all 0.2s ease-in-out;
+}
+
+#final_message {
+	font-size: 18px;
+}
+
+#final_submit:hover {
+	cursor: pointer;
+	background-color: #FFE66E;
 }
 
 #score-parent {
