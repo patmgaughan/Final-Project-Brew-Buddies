@@ -87,14 +87,14 @@
 			//html is the Question to be displayed
 			html = "";
 
-			html += "<div id='container'>";
+			html += "<div class='container'>";
 
 			// html += "The answer is " + currBeersJSON[answer]["name"] + "<br>";
 
 			html += "<h2 id='beer-qn'>Which Beer Pairs Better with " + currBeersJSON[answer]["food_pairing"][0] 
 			         + "?</h2><br>";
 
-			html += "<ul>"
+			// html += "<ul>"
 
 			html += "<div class='item_left'>";
 			html += "<li><button class='testbtn' onclick='likeBeer0()' id='btn0'>Like</button>";
@@ -107,7 +107,7 @@
 			html += "<button class='answer-btn' onclick='testAnswer1()'>" + showBeerJSON(currBeersJSON[1]) + "</button></li><br><br><br><br><br><br><br><br>";
 			html += "</div>";
 
-			html += "</ul>";
+			// html += "</ul>";
 
 			html += "</div>";
 
@@ -253,12 +253,13 @@
 
 			nextQuestion();
 
-			var toShow = ["#liked", "form", "#data", "#currQuestion", "#score"];
+			var toShow = ["#liked", "form", "#data", "#currQuestion", "#score", "header", "#liked-form"];
 
 			showJQuery(toShow);
 
 			$("#messy").hide();
 			$("#messy-v").hide();
+			$("#intro").hide();
 		}
 
 		function showLiked(){
@@ -275,7 +276,7 @@
 			a.innerHTML = "";
 
 			if(likedBeersJSON.length == 0){
-				a.innerHTML += "No Liked Beers";
+				a.innerHTML += "<br><h2>No Liked Beers</h2>";
 			}else{
 				a.innerHTML += "<ul>";
 
@@ -422,7 +423,7 @@
 		window.onload = function() {
 
 
-			var toHide = ["#back", "#false", "#true", "#liked", "form", "#data", "#FF1", "#FF2", "#final_form", "#final_user", "#final_score", "#final_likedBeers", "#final_submit", "#currQuestion", "#score", "#final_message"];
+			var toHide = ["#back", "#false", "#true", "#liked", "form", "#data", "#FF1", "#FF2", "#final_form", "#final_user", "#final_score", "#final_likedBeers", "#final_submit", "#currQuestion", "#score", "#final_message", "header", "#liked-form"];
 
 			hideJQuery(toHide);
 
@@ -446,48 +447,45 @@
 <body>
 
 	<header id="header">
+		<div id="score-parent">
+			<div id="currQuestion"></div>
+			<div id="score"></div>
+		</div>
 		<div id="username">&nbsp;</div>
 		<h1>The Impossible Brew Quiz</h1>
 	</header>
 
 	<!-- Login Form -->
 	<div id="messy">
-		<h2 id="intro">Welcome all beer enthusiasts! <br>Think you know beers better than your friends? Try the Impossible Brew Quiz! Featuring the most diabolical beer trivia, it's the ultimate beer test!</h2>
+		<div class="conainter" id="messy-v">
 
-		<div id="messy-v">
-			<div class="col">
+			<div class="item_left" id="login_left">
+				<h1 id="intro_title">The Impossible Brew Quiz</h1>
+				<h2 id="intro">Welcome all beer enthusiasts! <br>Think you know beers better than your friends? Try the Impossible Brew Quiz! Featuring the most diabolical beer trivia, it's the ultimate beer test!</h2>
+
+			</div>
+			<div class="item_right" id="login_right">
 				<form id="login">
 					<span id="enter-pls">Enter your username to start!</span><br/>
 					<input type="text" value="" id="user">
 	
 					<input type="button" id="sign_in" value="Start">
 				</form>
-
 			</div>
-			
 
-			<!-- <form id="login">
-				Name:<br>
-				<input type="text" value="user0000" id="user">
-
-				<input type="button" id="sign_in" value="Start">
-			</form> -->
-			<div class="col col-2"></div>
 		</div>
 	</div>
 	<!-- End Login Form -->
 
 
 	<div id="liked-form">
-		<form>
+			<!-- <div id="currQuestion"></div>
+			<div id="score"></div> -->
+			<!-- <br> -->
 			<input type="button" id="liked" value="See Liked Recipies">
-		</form>
+			<input type="button" id="back" value="Back to Swiping">
 	</div>
 	
-
-
-	<div id="currQuestion"></div>
-	<div id="score"></div>
 
 	<div id="data">Loading...</div>
 
@@ -496,7 +494,6 @@
 	<div id="FF1">
 		<div id="FF2">
 			<form id="final_form" method = "GET" action = "http://localhost:8080">
-	
 				<p id="final_message"></p>
 
 				<input id="final_user" name="final_user" value="_____">
@@ -511,9 +508,7 @@
 
 
 	<footer id="footer">
-		<input type="button" id="back" value="Back to Swiping">
-		<!-- <input type="button" id="dislike" value="clear">
-		<input type="button" id="like" value="favorite"> -->
+
 		<input type="button" id="true" value="T">
 		<input type="button" id="false" value="F">
 		<div id="likedBeersArr">SPAM Inc.</div>
