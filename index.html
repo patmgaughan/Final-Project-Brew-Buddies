@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-	<title>API Fun</title>
+	<title>Impossible Brew Quiz</title>
 	<meta charset="utf-8"/>
 	<link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="beerQuiz.css">
@@ -19,6 +19,9 @@
 		var likedBeersJSON = [];
 
 		var qType;
+		//qType 1 = Food Pairing
+		//qType 2 = Malts
+		//qType 3 = Hops
 		var answer;
 
 		var currQuestionHTML;
@@ -65,7 +68,7 @@
 
 				else if (request.readyState == 3) {
 
-					document.getElementById("data").innerHTML = "Too soon!  Try again";
+					document.getElementById("data").innerHTML = "<h2>Sorry, you clicked too fast!</h2><h3>Click Here to Continue</h3><input type='button' value='continue' onclick='nextQuestion()'>";
 
 				}
 
@@ -83,6 +86,9 @@
 			answer--;
 			//answer is an index of currBeersJSON
 
+			var arr = [];
+			var ingredient;
+
 
 			//html is the Question to be displayed
 			html = "";
@@ -91,8 +97,34 @@
 
 			// html += "The answer is " + currBeersJSON[answer]["name"] + "<br>";
 
+			//html += "<h2>Question is of Type - " + qType + "</h2>";
+
+			if(qType == 1){
+
 			html += "<h2 id='beer-qn'>Which Beer Pairs Better with " + currBeersJSON[answer]["food_pairing"][0] 
 			         + "?</h2><br>";
+			}else if(qType == 2){
+				html += "<h2>Which Beer is Brewed with the Malts:<h2>";
+				for (var i = 0; i < currBeersJSON[answer]["ingredients"]["malt"].length; i++) {
+
+					ingredient =  currBeersJSON[answer]["ingredients"]["malt"][i]["name"];
+					if(!arr.includes(ingredient)){
+						html += "<h3 class='ingredient'>" + ingredient + "</h3>";
+						arr.push(ingredient);
+					}
+
+				}
+			}else if(qType == 3){
+				html += "<h2>Which Beer is Brewed with the Hops:<h2>";
+				for (var i = 0; i < currBeersJSON[answer]["ingredients"]["hops"].length; i++) {
+
+					ingredient = currBeersJSON[answer]["ingredients"]["hops"][i]["name"];
+					if(!arr.includes(ingredient)){
+						html += "<h3 class='ingredient'>" + ingredient + "</h3>";
+						arr.push(ingredient);
+					}
+				}
+			}
 
 			// html += "<ul>"
 
@@ -114,87 +146,122 @@
 			//sets the innerHTML of id data to be var html
 			$("#data").html(html);
 
-
-			//sets the value of buttons to match the name
-			// pill shared buttonz
-			$("#true").val(currBeersJSON[0]["name"]);
-			$("#false").val(currBeersJSON[1]["name"]);
-
 		}
 
-		function showBeer(beer, a){
-
-			//a.innerHTML = "";
+		function showBeerJSON(beer){
 
 			var html = "";
+			//var html_image = "";
 
+			// id
 			html += "ID - " + beer["id"] + "<br>";
 
+			// name
 			html += "<h2>" + beer["name"] +"<h2>";
 			html += "<br>";
+
+			//image 
 			html += "<img src='" + beer["image_url"] + "' height=300 />";
+
+			// tagline
+			html += "<h3>" + beer["tagline"] + "</h3>";
+
 			html += "<p>" + beer["description"] + "<p>";
 
-			html += "tag line: " + beer["tagline"] + "<br>";
-			html += "First Brewed: " + beer["first_brewed"] + "<br>";
-			html += "abv - " + beer["abv"] + "<br>";
-			html += "ibu - " + beer["ibu"] + "<br>";
-			html += "ebc - " + beer["ebc"] + "<br>";
-			html += "srm - " + beer["srm"] + "<br>";
-			html += "ph - " + beer["ph"] + "<br>";
-			html += "Attenuation Level: " + beer["attenuation_level"] + "<br>";
 
-			html += "Volume: ";
+			// abv
+			html += "abv - " + beer["abv"] + "<br>";
+			//ibu
+			html += "ibu - " + beer["ibu"] + "<br>";
+			//ebc
+			html += "ebc - " + beer["ebc"] + "<br>";
+			//srm
+			html += "srm - " + beer["srm"] + "<br>";
+			// ph
+			html += "ph - " + beer["ph"] + "<br>";
+
+			//attenuation_level
+			html += "<h3>Attenuation Level:</h3> " + beer["attenuation_level"] + "<br>";
+
+			// volume
+			html += "<h3>Volume:</h3> ";
 			html += beer["volume"]["value"] + " " + beer["volume"]["unit"] + "<br>";
 
-
-			html += "Boil Volume: ";
+			//boil_volume
+			html += "<h3>Boil Volume:</h3> ";
 			html += beer["volume"]["value"] + " " + beer["volume"]["unit"] + "<br>";
 
 			//method
 
-			//ingrediants
-				//malt
-				//hops
-				//yeast
+			//ingredients
+			html += "<h3>Ingredients: </h3>";
+			html += "<h4>(malts, hops, and yeast)</h4>";
 
-			html += "Food Pairing: " + beer["food_pairing"][0] + "<br>";
 
-			html += "Brewers Tips: " + beer["brewers_tips"] + "<br>";
+			//malt
+			if(qType != 2){
+				html += "<h3>Malts:</h3> "
+				for (var i = 0; i < beer["ingredients"]["malt"].length; i++) {
+					html += beer["ingredients"]["malt"][i]["name"] + " - ";
+					html += beer["ingredients"]["malt"][i]["amount"]["value"] + " " + beer["ingredients"]["malt"][i]["amount"]["unit"];
+					var j = i + 1;
+    				if (j < beer["ingredients"]["malt"].length) { // not at the end yet
+    					html += "<br>"
+    				} else {
+    					html += "<br>"
+    				}
+				}
+			}
+
+			//hops
+			if(qType != 3){
+				html += "<h3>Hops:</h3> "
+				for (var i = 0; i < beer["ingredients"]["hops"].length; i++) {
+					html += beer["ingredients"]["hops"][i]["name"] + " - ";
+					html += beer["ingredients"]["hops"][i]["amount"]["value"] + " " + beer["ingredients"]["hops"][i]["amount"]["unit"];
+					html += " (" + beer["ingredients"]["hops"][i]["attribute"] + ", ";
+					html += "add at " + beer["ingredients"]["hops"][i]["add"] + ")";
+					var j = i + 1;
+    				if (j < beer["ingredients"]["hops"].length) { // not at the end yet
+    					html += "<br>"
+    				} else {
+    					html += "<br>"
+    				}
+				}
+			}
+
+			//yeast
+			html += "<h3>Yeast:</h3> " + beer["ingredients"]["yeast"] + "<br>";
+
+			//Food Pairing
+			if(qType != 1){
+				html += "<h3>Food Pairing:</h3> "
+				for (var i = 0; i < beer["food_pairing"].length; i++) {
+
+					html += beer["food_pairing"][i];
+					var j = i + 1;
+    				if (j < beer["food_pairing"].length) { // not at the end yet
+    					html += "<br>"
+    				} else {
+    					html += "<br>"
+    				}
+				}
+			}
+
+			html += "<h3>Brewers Tips:</h3> " + beer["brewers_tips"] + "<br>";
+
+			// first_brewed
+			html += "<h3>First Brewed on " + beer["first_brewed"] + "</h3>";
 
 			html += "<br><br><br>";
 
-
-
-			a.innerHTML = html;
-		}
-
-		//TODO: add if statements what what to be shown
-		//      depending on the question type
-		function showBeerJSON(beer){
-
-			output = "";
-
-			//Add a button and set the onclick, worst case
-			//put it in the form
-
-			output += "<h2>" + beer["name"] +"<h2>";
-			output += "<br>";
-			output += "<img src='" + beer["image_url"] + "' height=300 />";
-			output += "<p class='beer-desc'>" + beer["description"] + "<p>";
-			// output += "ID - " + beer["id"] + "<br>";
-
-			//if (qType != 1){
-			// output += "Food Pairing" + beer["pairing"];
-			//}
-
-			return output;
-
+			return html;
 		}
 
 		function nextQuestion() {
 			
-			qType = 1;
+
+			qType = Math.floor((Math.random() * 3) + 1);
 
 			num1 = Math.floor((Math.random() * 187) + 1);
 			num2 = Math.floor((Math.random() * 187) + 1);
@@ -204,32 +271,9 @@
 			twoBeers = num1 + "|" + num2;
 
 			setTwoBeers(twoBeers);
-		}
 
-		// Functionality must be fixed
-		function addCurrBeer() {
-
-			insert(likedBeers, currBeerJSON["id"], currBeerJSON["name"]);
-			likedBeersJSON.push(currBeerJSON);
-
-		}
-
-		//Not Used but can be kept
-		function showArray(arr){
-			var output = "";
-			for(key in arr)
-			{
-    			output += arr[key].beer + " | ";         
-			}
-			return output;
-		}
-
-		//Not Used but can be
-		function insert(arr, id, beer) {
-    		arr.push({
-        		id: id,
-        		beer: beer
-    		});        
+			document.body.scrollTop = 0; // For Safari
+  			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE 
 		}
 
 
@@ -244,12 +288,6 @@
 			$("#score").html("SCORE - 0");
 
 			$("#username").html(username);
-
-
-			beerID = 9;
-			prevLiked = "9|5|7|8";
-			numberLiked = prevLiked.length;
-			numberLiked = (numberLiked/2) + .5;
 
 			nextQuestion();
 
@@ -269,8 +307,6 @@
 			$("#back").show();
 
 			$("#liked").hide();
-			$("#false").hide();
-			$("#true").hide();
 
 			a = document.getElementById("data");
 			a.innerHTML = "";
@@ -339,6 +375,9 @@
 
 		function wrongAnswer() {
 
+			document.getElementById("score").style.color = "#fff";
+			document.getElementById("score").style.backgroundColor = "red";
+
 			if(currQuestion == 25){
 				endQuiz();
 			}else{
@@ -351,6 +390,9 @@
 		}
 
 		function rightAnswer() {
+
+			document.getElementById("score").style.color = "#fff";
+			document.getElementById("score").style.backgroundColor = "green";
 
 			score = score + 4;
 			output = "SCORE - " + score;
@@ -377,7 +419,7 @@
 		 */
 		function endQuiz() {
 
-			var toHide = ["#back", "#false", "#true", "#liked", "form", "#data", "#currQuestion", "#score", "#login"];
+			var toHide = ["#back", "#liked", "form", "#data", "#currQuestion", "#score", "#login"];
 
 			hideJQuery(toHide);
 
@@ -392,7 +434,7 @@
 			} else if (score < 90) {
 				extra = "Solid job!";
 			} else {
-				extra = "You truly are the beer god!";
+				extra = "You truly are the brew god!";
 			}
 
 
@@ -406,8 +448,6 @@
 			var string_likedBeers = JSON.stringify(currBeersJSON);
 
 			$("#final_likedBeers").val(string_likedBeers);
-
-
 
 			//This Line Might need to be changed
 		}
@@ -433,17 +473,11 @@
 		window.onload = function() {
 
 
-			var toHide = ["#back", "#false", "#true", "#liked", "form", "#data", "#FF1", "#FF2", "#final_form", "#final_user", "#final_score", "#final_likedBeers", "#final_submit", "#currQuestion", "#score", "#final_message", "header", "#liked-form"];
+			var toHide = ["#back", "#liked", "form", "#data", "#FF1", "#FF2", "#final_form", "#final_user", "#final_score", "#final_likedBeers", "#final_submit", "#currQuestion", "#score", "#final_message", "header", "#liked-form"];
 
 			hideJQuery(toHide);
 
 			$("#login").show();
-
-
-			// Pill Shaped Buttons
-			$("#true").click(testAnswer0);
-			$("#false").click(testAnswer1);
-			// Pill Shaped Buttons
 
 			$("#liked").click(showLiked);
 			$("#back").click(backToSwiping);
@@ -455,15 +489,6 @@
 </head>
 
 <body>
-
-	<header id="header">
-		<div id="score-parent">
-			<div id="currQuestion"></div>
-			<div id="score"></div>
-		</div>
-		<div id="username">&nbsp;</div>
-		<h1>The Impossible Brew Quiz</h1>
-	</header>
 
 	<!-- Login Form -->
 	<div id="messy">
@@ -487,11 +512,17 @@
 	</div>
 	<!-- End Login Form -->
 
+	<header id="header">
+		<div id="score-parent">
+			<div id="score"></div>
+			<div id="currQuestion"></div>
+		</div>
+		<div id="username">&nbsp;</div>
+		<h1>The Impossible Brew Quiz</h1>
+	</header>
+
 
 	<div id="liked-form">
-			<!-- <div id="currQuestion"></div>
-			<div id="score"></div> -->
-			<!-- <br> -->
 			<input type="button" id="liked" value="See Liked Recipies">
 			<input type="button" id="back" value="Back to Swiping">
 	</div>
@@ -518,11 +549,9 @@
 
 
 	<footer id="footer">
-
-		<input type="button" id="true" value="T">
-		<input type="button" id="false" value="F">
 		<div id="likedBeersArr">SPAM Inc.</div>
 	<footer>
 
 </body>
 </html>
+
