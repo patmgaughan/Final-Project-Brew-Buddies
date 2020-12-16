@@ -69,7 +69,7 @@
 
 				else if (request.readyState == 3) {
 
-					document.getElementById("data").innerHTML = "<h2>Sorry, you clicked too fast!</h2><h3>Click Here to Continue</h3><input type='button' value='continue' onclick='nextQuestion()'>";
+					document.getElementById("data").innerHTML = "<h2>Sorry, you clicked too fast!</h2><h3>Click Here to Continue</h3><input type='button' id='continueBtn' value='continue' onclick='nextQuestion()'>";
 
 				}
 
@@ -81,7 +81,6 @@
 		//uses Global varianle currBeersJSON
 		//and the variable qType;
 		function setQuestion() {
-			//a = document.getElementById("data");
 
 			answer = Math.floor((Math.random() * 2) + 1);
 			answer--;
@@ -98,36 +97,52 @@
 
 			// html += "The answer is " + currBeersJSON[answer]["name"] + "<br>";
 
-			//html += "<h2>Question is of Type - " + qType + "</h2>";
-
 			if(qType == 1){
 
-			html += "<h2 id='beer-qn'>Which Beer Pairs Better with " + currBeersJSON[answer]["food_pairing"][0] 
-			         + "?</h2><br>";
+			html += "<div id='beer-qn'><h2>Which Beer Pairs Better with " + currBeersJSON[answer]["food_pairing"][0] 
+			         + "?</h2></div<br>";
 			}else if(qType == 2){
-				html += "<h2>Which Beer is Brewed with the Malts:<h2>";
+				html += "<div id='beer-qn'><h2>Which Beer is Brewed with the Malts:<h2>";
+				html += "<h3 class='ingredient'>";
+
 				for (var i = 0; i < currBeersJSON[answer]["ingredients"]["malt"].length; i++) {
 
 					ingredient =  currBeersJSON[answer]["ingredients"]["malt"][i]["name"];
+
 					if(!arr.includes(ingredient)){
-						html += "<h3 class='ingredient'>" + ingredient + "</h3>";
 						arr.push(ingredient);
 					}
-
 				}
+
+				for(var j = 0; j < arr.length; j++){
+					html += arr[j];
+					if(j < (arr.length - 1)){
+						html += " | ";
+					}
+				}
+
+				html += "</h3></div>";
+
 			}else if(qType == 3){
-				html += "<h2>Which Beer is Brewed with the Hops:<h2>";
+				html += "<div id='beer-qn'><h2>Which Beer is Brewed with the Hops:<h2>";
+				html += "<h3 class='ingredient'>";
 				for (var i = 0; i < currBeersJSON[answer]["ingredients"]["hops"].length; i++) {
 
 					ingredient = currBeersJSON[answer]["ingredients"]["hops"][i]["name"];
 					if(!arr.includes(ingredient)){
-						html += "<h3 class='ingredient'>" + ingredient + "</h3>";
 						arr.push(ingredient);
 					}
 				}
+
+				for(var j = 0; j < arr.length; j++){
+					html += arr[j];
+					if(j < (arr.length - 1)){
+						html += " | ";
+					}
+				}
+				html += "</h3></div>";
 			}
 
-			// html += "<ul>"
 
 			html += "<div class='item_left'>";
 			html += "<li><button class='testbtn' onclick='likeBeer0()' id='btn0'>Like</button>";
@@ -140,12 +155,11 @@
 			html += "<button class='answer-btn' onclick='testAnswer1()'>" + showBeerJSON(currBeersJSON[1]) + "</button></li><br><br><br><br><br><br><br><br>";
 			html += "</div>";
 
-			// html += "</ul>";
-
 			html += "</div>";
 
 			//sets the innerHTML of id data to be var html
 			$("#data").html(html);
+			currQuestionHTML = html;
 
 		}
 
@@ -154,12 +168,22 @@
 			var html = "";
 			//var html_image = "";
 
+			var testQType = -1;
+			var testID0;
+			var testID1;
+
+			testID0 = currBeersJSON[0]["id"];
+			testID1 = currBeersJSON[1]["id"];
+
+			if(beer["id"] == testID0 || beer["id"] == testID1){
+				testQType = qType;
+			}
+
 			// id
-			html += "ID - " + beer["id"] + "<br>";
+			//html += "ID - " + beer["id"] + "<br>";
 
 			// name
 			html += "<h2>" + beer["name"] +"<h2>";
-			html += "<br>";
 
 			//image 
 			html += "<img src='" + beer["image_url"] + "' height=300 />";
@@ -200,7 +224,7 @@
 
 
 			//malt
-			if(qType != 2){
+			if(testQType != 2){
 				html += "<h3>Malts:</h3> "
 				for (var i = 0; i < beer["ingredients"]["malt"].length; i++) {
 					html += beer["ingredients"]["malt"][i]["name"] + " - ";
@@ -215,7 +239,7 @@
 			}
 
 			//hops
-			if(qType != 3){
+			if(testQType != 3){
 				html += "<h3>Hops:</h3> "
 				for (var i = 0; i < beer["ingredients"]["hops"].length; i++) {
 					html += beer["ingredients"]["hops"][i]["name"] + " - ";
@@ -235,7 +259,7 @@
 			html += "<h3>Yeast:</h3> " + beer["ingredients"]["yeast"] + "<br>";
 
 			//Food Pairing
-			if(qType != 1){
+			if(testQType != 1){
 				html += "<h3>Food Pairing:</h3> "
 				for (var i = 0; i < beer["food_pairing"].length; i++) {
 
@@ -259,8 +283,20 @@
 			return html;
 		}
 
+		function showBeerJSON_Min(beer) {
+
+			var html = "";
+
+			html += "<h2>" + beer["name"] +"<h2>";
+			html += "<img src='" + beer["image_url"] + "' height=300 />";
+			html += "<h3>" + beer["tagline"] + "</h3>";
+
+			return html;
+		}
+
 		function nextQuestion() {
 			
+			document.getElementById('data').className = 'question';
 
 			qType = Math.floor((Math.random() * 3) + 1);
 
@@ -281,6 +317,23 @@
 		function startSwiping(){ 
 
 			username = document.getElementById("user").value;
+
+			username = username.toString();
+			space = " ";
+
+			if(!new RegExp("[^\s" + space + "]").test(username)){
+
+				num = Math.floor((Math.random() * 9999) + 1);
+				if(num < 10){
+					num = "000" + num;
+				}else if(num < 100){
+					num = "00" + num;
+				}else if(num < 1000){
+					num = "0" + num;
+				}
+
+				username = "Shakesbeer" + num;
+			}
 
 			currQuestion = 1;
 			score = 0;
@@ -303,9 +356,12 @@
 
 		function showLiked(){
 
-			currQuestionHTML = $('#data').html();
+			// document.getElementById('data').className = 'uList';
+			// currQuestionHTML = $('#data').html();
+			// var type = $('#expand').val();
 
 			$("#back").show();
+			// $("#expand").show();
 
 			$("#liked").hide();
 
@@ -315,25 +371,52 @@
 			if(likedBeersJSON.length == 0){
 				a.innerHTML += "<br><h2>No Liked Beers</h2>";
 			}else{
-				a.innerHTML += "<ul>";
 
 				n = likedBeersJSON.length - 1;
 
 				for(i = n; i > -1; i--)
 				{
-					a.innerHTML += "<li>" + showBeerJSON(likedBeersJSON[i]) + "</li>";
+
+					// if(type == "Collapse"){
+						document.getElementById('data').className = 'uList2';
+						a.innerHTML += "<li class='likedBeerFull'>" + showBeerJSON(likedBeersJSON[i]) + "</li>";
+						// a.innerHTML += "<br><br><br>";
+						//a.innerHTML += "<div class='li'>" + showBeerJSON(likedBeersJSON[i]) + "</div>";
+					// }else if(type == "Show Full Beers"){
+					// 	document.getElementById('data').className = 'uList';
+					// 	a.innerHTML += "<li class='likedBeer'>" + showBeerJSON_Min(likedBeersJSON[i]) + "</li>";
+					// 	//a.innerHTML += "<div class='li'>" + showBeerJSON_Min(likedBeersJSON[i]) + "</div>";
+					// }
+
 				}
-				a.innerHTML += "</ul>";
-				a.innerHTML += "<br><br><br>";
+
+				// a.innerHTML += "</div>"
+				// a.innerHTML += "<br><br><br>";
 			}
+		}
+
+		function showLiked_collasped(){
+			// $('#expand').val("Show Full Beers");
+			showLiked();
 		}
 
 		function backToSwiping(){
 
+			document.getElementById('data').className = 'question';
+
 			$("#liked").show();
 
 			$("#back").hide();
+			// $("#expand").hide();
 			$('#data').html(currQuestionHTML);
+
+			if(likedBeersJSON.includes(currBeersJSON[0])){
+				$("#btn0").html("Liked");
+			}
+
+			if(likedBeersJSON.includes(currBeersJSON[1])){
+				$("#btn1").html("Liked");
+			}
 
 		}
 
@@ -412,6 +495,45 @@
 
 		}
 
+		// function toggelExpand() {
+
+		// 	value = $("#expand").val();
+
+		// 	if(value == "Show Full Beers"){
+		// 		$("#expand").val("Collapse");
+
+		// 	}else if(value == "Collapse"){
+		// 		$("#expand").val("Show Full Beers");
+
+		// 	}
+
+		// 	showLiked();
+		// }
+
+		function emailResults() {
+			var email = $("email").val(); 
+
+			var valid = valEmail(email);
+
+			if(!valid){
+				$("email").val("EMAIL NOT VALID");
+
+			}else if(valid){
+				var mailto = "mailto::" + email;
+				window.open(mailto);
+
+			}
+		}
+
+		function valEmail(email) {
+			errorMessage = "";
+			if(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)){
+				return true;
+			}else{
+				return false;
+			}
+		}
+
 		/* 
 		 * Ends the Quiz By hiding all current elements on
 		 * the page, and showing the final form.
@@ -424,7 +546,7 @@
 
 			hideJQuery(toHide);
 
-			var toShow = ["#FF1", "#FF2", "#final_form", "#final_submit", "#final_message"];
+			var toShow = ["#FF1", "#FF2", "#final_form", "#final_submit", "#email", "#final_message"];
 
 			showJQuery(toShow);
 			var extra;
@@ -438,15 +560,40 @@
 				extra = "You truly are the brew god!";
 			}
 
+			post = "<br><br>Optional:<br>Enter your email to recieve recipies for you Liked Beers"
 
-			$("#final_message").html(username + ", your score is " + score + "/100! " + extra);
+
+			$("#final_message").html(username + ", your score is " + score + "/100! " + extra + post);
 			$("#final_user").val(username);
 			$("#final_score").val(score);
 
 
 			//Madeline Might have changed this Line
+			var string_likedBeers = "";
 
-			var string_likedBeers = JSON.stringify(currBeersJSON);
+			//var string_likedBeers = JSON.stringify(currBeersJSON);
+			string_likedBeers += "<h1>Thank you " + username + ", for taking the Impossible Brew Quiz!</h1>";
+			string_likedBeers += '<a class="try_again" href="https://patmgaughan.github.io/Final-Project-Brew-Buddies/">Play Again</a>';
+			string_likedBeers += "<h2>Here are your Liked Beers:</h2>";
+
+
+			var l = likedBeersJSON.length;
+
+			if(l > 8){
+				l = 8;
+			}
+			qType = -1;
+			for(i = 0; i < l; i++){
+				string_likedBeers += showBeerJSON(likedBeersJSON[i]);
+			}
+
+			if(likedBeersJSON.length == 0){
+				string_likedBeers = "";
+				string_likedBeers += "<h1>Thank you " + username + ", for taking the Impossible Brew Quiz!</h1>";
+				string_likedBeers += "<h2>You didn't like any Beers :(</h2>";
+				string_likedBeers += '<a class="try_again" href="https://patmgaughan.github.io/Final-Project-Brew-Buddies/">Play Again!</a>';
+			}
+
 
 			$("#final_likedBeers").val(string_likedBeers);
 
@@ -474,13 +621,13 @@
 		window.onload = function() {
 
 
-			var toHide = ["#back", "#liked", "form", "#data", "#FF1", "#FF2", "#final_form", "#final_user", "#final_score", "#final_likedBeers", "#final_submit", "#currQuestion", "#score", "#final_message", "header", "#liked-form"];
+			var toHide = ["#back", "#liked", "form", "#data", "#FF1", "#FF2", "#final_form", "#final_user", "#final_score", "#email", "#final_likedBeers", "#final_submit", "#currQuestion", "#score", "#final_message", "header", "#liked-form"];
 
 			hideJQuery(toHide);
 
 			$("#login").show();
 
-			$("#liked").click(showLiked);
+			$("#liked").click(showLiked_collasped);
 			$("#back").click(backToSwiping);
 			$("#sign_in").click(startSwiping);
 
@@ -526,6 +673,7 @@
 	<div id="liked-form">
 			<input type="button" id="liked" value="See Liked Recipies">
 			<input type="button" id="back" value="Back to Swiping">
+			<!-- <input type="button" id="expand" value="Show Full Beers"> -->
 	</div>
 	
 
@@ -536,18 +684,18 @@
 	<div id="FF1">
 		<div id="FF2">
 			<form id="final_form" method = "GET" action = "http://localhost:8080">
+
 				<p id="final_message"></p>
 
 				<input id="final_user" name="final_user" value="_____">
 				<input id="final_score" name="final_score" value="_____">
+				<input type="text" id="email" name="final_email">
 				<input id="final_likedBeers" name="final_likedBeers" value="_____">
-				<a class="try_again" href="index.html">Try again?</a><br><br>
 				<input type="submit" id="final_submit" value="Save & See Ranking">
 			</form>
 		</div>
 	</div>
 	<!-- End Final Form -->
-
 
 	<footer id="footer">
 		<div id="likedBeersArr">SPAM Inc.</div>
